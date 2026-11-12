@@ -1,5 +1,22 @@
 expenses = []
 
+try:
+    with open("expenses.txt", "r") as file:
+        for line in file:
+            description, amount = line.strip().rsplit(": ", 1)
+            expenses.append({"description": description, "amount": float(amount)})
+except FileNotFoundError:
+    pass
+
+print("\nSaved expenses:")
+total = 0
+
+for expense in expenses:
+    print(expense["description"], "-", expense["amount"])
+    total = total + expense["amount"]
+
+print("Total so far:", total)
+
 while True:
     description = input("What did you spend money on? (or type 'done'): ")
 
@@ -20,7 +37,7 @@ for expense in expenses:
 
 print("Total spent:", total)
 
-with open("expenses.txt", "a") as file:
+with open("expenses.txt", "w") as file:
     for expense in expenses:
         file.write(expense["description"] + ": " + str(expense["amount"]) + "\n")
 
